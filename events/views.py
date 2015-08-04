@@ -1,8 +1,11 @@
 from datetime import timedelta
 from decimal import Decimal
 
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.db.models import Prefetch
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from django.utils import timezone
 from django.views.generic import TemplateView
 
@@ -24,6 +27,12 @@ class HomepageView(TemplateView):
                 to_attr='signups'
             )).latest('id')
         except Event.DoesNotExist:
+            return context
+
+        context['event'] = event
+
+        if not self.request.user.is_authenticated():
+            context['form'] = AuthenticationForm()
             return context
 
         next_seven_days = {}
@@ -51,13 +60,25 @@ class HomepageView(TemplateView):
         signup_width = Decimal(100) / event.target_number_of_attendees
         signup_width = round(signup_width, 2)
 
-        context['event'] = event
         context['next_seven_days'] = next_seven_days
         context['signup_width'] = signup_width
 
         return context
 
     def post(self, request, *args, **kwargs):
+        if '_login' in request.POST:
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+            return redirect('home')
+
+        if '_logout' in request.POST:
+            logout(request)
+            return redirect('home')
+
         if 'signup' in request.POST:
             Signup.objects.filter(pk=request.POST['signup']).delete()
             return JsonResponse({'status': 'deleted'})
