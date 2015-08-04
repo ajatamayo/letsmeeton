@@ -23,7 +23,9 @@ $(document).ready(function() {
                 var $signup = $('<div class="signup you">YOU</div>');
                 $signup.css('width', data.width + '%');
                 $signup.data('signup', data.signup);
+                $signup.attr('title', 'Click to remove your confirmation.');
                 $this.removeClass('not-attending');
+                $this.removeAttr('title');
                 $this.find('.signups').append($signup);
             }
         });
@@ -37,7 +39,9 @@ $(document).ready(function() {
             method: 'POST',
             data: $this.data(),
             success: function(data) {
-                $this.closest('.timeofday-wrapper').addClass('not-attending');
+                var $timeofday = $this.closest('.timeofday-wrapper');
+                $timeofday.addClass('not-attending');
+                $timeofday.attr('title', 'Click to confirm your availability!');
                 $this.remove();
             }
         });

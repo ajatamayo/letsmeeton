@@ -12,13 +12,13 @@
   <h1 class="event-title">{{ event }}</h1>
 
   {% for key, data in next_seven_days %}
-    <div class="timeofday-wrapper cf{% if not data.attending %} not-attending{% endif %}" data-date="{{ data.date|date:"Y-m-d" }}" data-timeofday="{{ data.timeofday }}">
+    <div class="timeofday-wrapper cf{% if not data.attending %} not-attending{% endif %}" data-date="{{ data.date|date:"Y-m-d" }}" data-timeofday="{{ data.timeofday }}"{% if not data.attending %} title="Click to confirm your availability!"{% endif %}>
       <div class="timeofday">
         <span class="textual-date">{{ data.date|date:"l" }} {{ data.timeofday }}</span>
         <br>{{ data.date|date:"N j" }}</div>
       <div class="signups cf">
         {% for signup in data.items %}
-          <div class="signup{% if user == signup.attendee %} you{% endif %}" style="width: {{ signup_width }}%;" data-signup="{{ signup.pk }}">
+          <div class="signup{% if user == signup.attendee %} you{% endif %}" style="width: {{ signup_width }}%;" data-signup="{{ signup.pk }}"{% if user == signup.attendee %} title="Click to remove your confirmation."{% endif %}>
             {% if user == signup.attendee %}YOU{% else %}{{ signup.attendee }}{% endif %}
           </div>
         {% endfor %}
