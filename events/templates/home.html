@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'app.css' %}">
+  <link rel="stylesheet" href="{% static 'fonts/domine/stylesheet.css' %}">
+  <link rel="stylesheet" href="{% static 'fonts/font-awesome-4.1.0/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'fonts/open-sans/stylesheet.css' %}">
+{% endblock css %}
 
 {% block content %}
-    WOI
+  <h1 class="event-title">{{ event }}</h1>
 {% endblock content %}
+
+{% block js %}
+  <script type="text/javascript" src="{% static 'app.js' %}"></script>
+{% endblock js %}
