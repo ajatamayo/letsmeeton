@@ -12,11 +12,15 @@
   <h1 class="event-title">{{ event }}</h1>
 
   {% for key, data in next_seven_days %}
-    <div class="timeofday-wrapper cf">
-      <div class="timeofday"><span class="textual-date">{{ data.date|date:"l" }} {{ data.timeofday }}</span><br>{{ data.date|date:"N j" }}</div>
+    <div class="timeofday-wrapper cf{% if not data.attending %} not-attending{% endif %}" data-date="{{ data.date|date:"Y-m-d" }}" data-timeofday="{{ data.timeofday }}">
+      <div class="timeofday">
+        <span class="textual-date">{{ data.date|date:"l" }} {{ data.timeofday }}</span>
+        <br>{{ data.date|date:"N j" }}</div>
       <div class="signups cf">
         {% for signup in data.items %}
-          <div class="signup" style="width: {{ signup_width }}%;">{{ signup.attendee }}</div>
+          <div class="signup{% if user == signup.attendee %} you{% endif %}" style="width: {{ signup_width }}%;" data-signup="{{ signup.pk }}">
+            {% if user == signup.attendee %}YOU{% else %}{{ signup.attendee }}{% endif %}
+          </div>
         {% endfor %}
       </div>
     </div>
@@ -24,5 +28,7 @@
 {% endblock content %}
 
 {% block js %}
+  <script type="text/javascript" src="{% static 'jquery-2.1.4.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'jquery.cookie.js' %}"></script>
   <script type="text/javascript" src="{% static 'app.js' %}"></script>
 {% endblock js %}

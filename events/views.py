@@ -2,6 +2,7 @@ from datetime import timedelta
 from decimal import Decimal
 
 from django.db.models import Prefetch
+from django.http import JsonResponse
 from django.utils import timezone
 from django.views.generic import TemplateView
 
@@ -41,6 +42,9 @@ class HomepageView(TemplateView):
                              signup.time_of_day)
             next_seven_days[key]['items'].append(signup)
 
+            if signup.attendee == self.request.user:
+                next_seven_days[key]['attending'] = True
+
         next_seven_days = list(next_seven_days.iteritems())
         next_seven_days.sort()
 
@@ -52,3 +56,29 @@ class HomepageView(TemplateView):
         context['signup_width'] = signup_width
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        if 'signup' in request.POST:
+            Signup.objects.filter(pk=request.POST['signup']).delete()
+            return JsonResponse({'status': 'deleted'})
+
+        try:
+            event = Event.objects.latest('id')
+        except Event.DoesNotExist:
+            return JsonResponse({'status': 'noevent'})
+
+        if 'date' in request.POST and 'timeofday' in request.POST:
+            signup = Signup.objects.create(
+                event=event,
+                attendee=request.user,
+                date=request.POST['date'],
+                time_of_day=request.POST['timeofday'])
+            signup_width = Decimal(100) / event.target_number_of_attendees
+            signup_width = round(signup_width, 2)
+            return JsonResponse({
+                'status': 'confirmed',
+                'signup': signup.pk,
+                'width': signup_width,
+            })
+
+        return JsonResponse({'status': 'fail'})

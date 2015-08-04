@@ -35,11 +35,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .timeofday-wrapper {
+    border-color: #f3f3f3;
+    border-style: solid;
+    border-width: 1px 0 1px 0;
     margin-bottom: 22px;
 }
 
 .timeofday-wrapper:nth-child(even) {
     background: #f3f3f3;
+}
+
+.timeofday-wrapper.not-attending {
+    cursor: pointer;
+}
+
+.timeofday-wrapper.not-attending:hover {
+    background: #efefef;
+}
+
+.timeofday-wrapper.not-attending:active {
+    background: #fcffe6;
 }
 
 .timeofday {
@@ -69,4 +84,16 @@ h1, h2, h3, h4, h5, h6 {
     padding: 2px;
     text-align: center;
     background: #c1c1c1;
+}
+
+.signup.you {
+    cursor: pointer;
+}
+
+.signup.you:hover {
+    font-weight: 600;
+}
+
+.signup.you:active {
+    font-weight: 300;
 }
