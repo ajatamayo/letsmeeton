@@ -10,6 +10,17 @@
 
 {% block content %}
   <h1 class="event-title">{{ event }}</h1>
+
+  {% for key, data in next_seven_days %}
+    <div class="timeofday-wrapper cf">
+      <div class="timeofday"><span class="textual-date">{{ data.date|date:"l" }} {{ data.timeofday }}</span><br>{{ data.date|date:"N j" }}</div>
+      <div class="signups cf">
+        {% for signup in data.items %}
+          <div class="signup" style="width: {{ signup_width }}%;">{{ signup.attendee }}</div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
 {% endblock content %}
 
 {% block js %}

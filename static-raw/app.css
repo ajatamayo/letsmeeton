@@ -1,5 +1,29 @@
+.cf {
+    *zoom: 1;
+}
+
+.cf:before, .cf:after {
+    content: " ";
+    display: table;
+}
+
+.cf:after {
+    clear: both;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
 body {
     font-family: 'Open Sans', sans-serif;
+
+    width: 940px;
+    margin: 0 auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -8,4 +32,41 @@ h1, h2, h3, h4, h5, h6 {
 
 .event-title {
     text-align: center;
+}
+
+.timeofday-wrapper {
+    margin-bottom: 22px;
+}
+
+.timeofday-wrapper:nth-child(even) {
+    background: #f3f3f3;
+}
+
+.timeofday {
+    width: 31.25%;
+    float: left;
+    text-align: center;
+    font-family: 'Domine', serif;
+    line-height: 25px;
+    padding: 5px;
+}
+
+.textual-date {
+    font-weight: 600;
+}
+
+.signups {
+    width: 68.75%;
+    float: left;
+    padding: 5px;
+}
+
+.signup {
+    float: left;
+    overflow: hidden;
+    line-height: 46px;
+    height: 50px;
+    padding: 2px;
+    text-align: center;
+    background: #c1c1c1;
 }

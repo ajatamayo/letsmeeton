@@ -21,6 +21,9 @@ class Signup(models.Model):
     date = models.DateField()
     time_of_day = models.CharField(max_length=16, choices=TIMEOFDAY_CHOICES)
 
+    class Meta:
+        unique_together = ('event', 'attendee', 'date', 'time_of_day',)
+
     def __unicode__(self):
         return u'%s %s %s %s' % (self.event,
                                  self.attendee,
