@@ -17,7 +17,7 @@ class SignupAdmin(admin.ModelAdmin):
     '''
         Admin View for Signup
     '''
-    list_display = ('event', 'attendee', 'date',)
+    list_display = ('event', 'attendee', 'date', 'time_of_day',)
     search_fields = ['event', 'attendee']
 
 admin.site.register(Signup, SignupAdmin)
