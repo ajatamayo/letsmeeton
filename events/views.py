@@ -63,6 +63,9 @@ class HomepageView(TemplateView):
         context['next_seven_days'] = next_seven_days
         context['signup_width'] = signup_width
 
+        n = event.target_number_of_attendees
+        context['alphas'] = [1.0 / n * x for x in range(1, n + 1)]
+
         return context
 
     def post(self, request, *args, **kwargs):

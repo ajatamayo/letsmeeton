@@ -6,6 +6,13 @@
   <link rel="stylesheet" href="{% static 'fonts/domine/stylesheet.css' %}">
   <link rel="stylesheet" href="{% static 'fonts/font-awesome-4.1.0/css/font-awesome.min.css' %}">
   <link rel="stylesheet" href="{% static 'fonts/open-sans/stylesheet.css' %}">
+  <style type="text/css">
+    {% for alpha in alphas %}
+      .signups .signup:nth-child({{ forloop.counter }}) {
+        background: rgba(255, 105, 97, {{ alpha }});
+      }
+    {% endfor %}
+  </style>
 {% endblock css %}
 
 {% block content %}
