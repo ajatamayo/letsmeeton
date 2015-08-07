@@ -35,6 +35,11 @@
       </div>
     {% endfor %}
 
+    <form method="GET">
+      <p>Currently showing {{ days }} day{{ days|pluralize }} into the future.</p>
+      <p>Show <input type="number" name="days" id="days"> days into the future. <input type="submit" value="Ok!"></p>
+    </form>
+
     <form method="POST">
       {% csrf_token %}
       <button type="submit" name="_logout">Logout</button>

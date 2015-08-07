@@ -36,7 +36,15 @@ class HomepageView(TemplateView):
             return context
 
         next_seven_days = {}
-        for x in range(0, 7):
+        days = self.request.GET.get('days', '')
+        try:
+            days = int(days) if days else 7
+        except ValueError:
+            days = 7
+        if days < 1:
+            days = 7
+
+        for x in range(0, days):
             for timeofday in Signup.TIMEOFDAY_CHOICES:
                 day = today + timedelta(days=x)
                 key = '%s|%s' % (day.strftime('%Y-%m-%d'), timeofday[0])
@@ -49,10 +57,12 @@ class HomepageView(TemplateView):
         for signup in event.signups:
             key = '%s|%s' % (signup.date.strftime('%Y-%m-%d'),
                              signup.time_of_day)
-            next_seven_days[key]['items'].append(signup)
 
-            if signup.attendee == self.request.user:
-                next_seven_days[key]['attending'] = True
+            if key in next_seven_days:
+                next_seven_days[key]['items'].append(signup)
+
+                if signup.attendee == self.request.user:
+                    next_seven_days[key]['attending'] = True
 
         next_seven_days = list(next_seven_days.iteritems())
         next_seven_days.sort()
@@ -65,6 +75,8 @@ class HomepageView(TemplateView):
 
         n = event.target_number_of_attendees
         context['alphas'] = [1.0 / n * x for x in range(1, n + 1)]
+
+        context['days'] = days
 
         return context
 
